@@ -51,7 +51,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
-    'django_extensions',
     'allauth',
     'allauth.account',
     'rest_framework',
@@ -93,6 +92,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django_convo_sphere.wsgi.application'
 
+# POSTGRES CONFIG
+POSTGRES_DB = 'convo_sphere'
+POSTGRES_USER = get_env_variable('POSTGRES_USER')
+POSTGRES_PASSWORD = get_env_variable('POSTGRES_PASSWORD')
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -100,9 +103,10 @@ WSGI_APPLICATION = 'django_convo_sphere.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'convo_sphere',
-        'USER': 'postgres',
-        'PASSWORD': '123456',
+        'NAME': POSTGRES_DB,
+        'USER': POSTGRES_USER,
+        'PASSWORD': POSTGRES_PASSWORD,
+        'PORT': 5432
     }
 }
 
@@ -160,7 +164,6 @@ STATICFILES_FINDERS = [
 
 
 # CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'
-# CELERY_RESULT_BACKEND = 'db+postgresql://<username>:<password>@<hostname>:<port>/<database_name>'
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
 CELERY_RESULT_BACKEND = 'db+postgresql://postgres:123456@localhost/stores'
 CELERY_BEAT_SCHEDULE = {
